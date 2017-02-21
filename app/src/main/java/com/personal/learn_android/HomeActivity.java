@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -18,6 +19,12 @@ public class HomeActivity extends AppCompatActivity {
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         TextView nameView = (TextView) findViewById(R.id.name_view);
         nameView.setText(message);
+
+        String eventName = intent.getStringExtra(EventActivity.EXTRA_MESSAGE);
+        if (eventName != null) {
+            Button event = (Button) findViewById(R.id.button_event);
+            event.setText(eventName);
+        }
     }
 
     public void chooseGuest(View view) {

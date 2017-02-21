@@ -43,7 +43,7 @@
             android:text="@string/select_event_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/button2"
+            android:id="@+id/button_event"
             android:onClick="chooseEvent"
             android:layout_weight="1" />
 
@@ -51,7 +51,7 @@
             android:text="@string/select_guest_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/button3"
+            android:id="@+id/button_guest"
             android:onClick="chooseGuest"
             android:layout_weight="1" />
 

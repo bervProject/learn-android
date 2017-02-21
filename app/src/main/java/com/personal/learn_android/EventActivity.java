@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,20 +35,34 @@ public class EventActivity extends AppCompatActivity {
         // Construct the data source
         ArrayList<EventModel> arrayOfUsers = new ArrayList<EventModel>();
         // Create the adapter to convert the array to views
-        EventAdapter adapter = new EventAdapter(this, arrayOfUsers);
+        final EventAdapter adapter = new EventAdapter(this, arrayOfUsers);
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.event_view);
-        EventModel event1 = new EventModel("Makan-makan","12-08-2017",R.drawable.events);
-        EventModel event2 = new EventModel("Makan-makan","12-08-2017",R.drawable.events);
-        EventModel event3 = new EventModel("Makan-makan","12-08-2017",R.drawable.events);
-        EventModel event4 = new EventModel("Makan-makan","12-08-2017",R.drawable.events);
+        EventModel event1 = new EventModel("Makan-Makan","12-08-2017",R.drawable.events);
+        EventModel event2 = new EventModel("Liburan","19-08-2017",R.drawable.sample_0);
+        EventModel event3 = new EventModel("Kasih Makan","13-08-2017",R.drawable.sample_2);
+        EventModel event4 = new EventModel("Jalan Jalan","17-08-2017",R.drawable.sample_3);
         adapter.add(event1);
         adapter.add(event2);
         adapter.add(event3);
         adapter.add(event4);
         listView.setAdapter(adapter);
-    }
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                String message= adapter.getItem(position).getEventName();
+               // Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EventActivity.this,HomeActivity.class);
+                intent.putExtra(EXTRA_MESSAGE,message);
+                startActivity(intent);
+            }
+        });
+
+ }
 
 
 }
