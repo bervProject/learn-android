@@ -51,8 +51,4 @@ public class EventAdapter extends ArrayAdapter<EventModel> {
 
     }
 
-    public EventModel getItem(int position) {
-        return getItem(position);
-    }
-
 }

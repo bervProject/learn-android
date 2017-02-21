@@ -9,15 +9,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".EventActivity"
-            android:label="Event"><intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+        <activity
+            android:name=".EventActivity"
+            android:label="Event">
+        </activity>
+        <activity android:name=".GuestActivity"
+            android:label="Guest"></activity>
     </application>
 
 </manifest>

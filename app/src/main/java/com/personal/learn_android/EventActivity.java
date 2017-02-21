@@ -25,7 +25,6 @@ import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
-    private EventAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class EventActivity extends AppCompatActivity {
         // Construct the data source
         ArrayList<EventModel> arrayOfUsers = new ArrayList<EventModel>();
         // Create the adapter to convert the array to views
-        adapter = new EventAdapter(this, arrayOfUsers);
+        EventAdapter adapter = new EventAdapter(this, arrayOfUsers);
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.event_view);
         EventModel event1 = new EventModel("Makan-makan","12-08-2017",R.drawable.events);
@@ -47,18 +46,6 @@ public class EventActivity extends AppCompatActivity {
         adapter.add(event3);
         adapter.add(event4);
         listView.setAdapter(adapter);
-
-        listView.setOnClickListener(new ListView.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                EventModel eventItem = (EventModel) adapter.getItem(view.getId());
-
-                Intent intent = new Intent(EventActivity.this, HomeActivity.class);
-                String message = eventItem.getEventName();
-                intent.putExtra(EXTRA_MESSAGE,message);
-                startActivity(intent);
-            }
-        });
     }
 
 
