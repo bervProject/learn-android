@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">learn-android</string>
+    <string name="text_home">masukan nama...</string>
+    <string name="button_home">next</string>
+    <string name="home_label">Nama : </string>
+    <string name="select_event_button">pilih event</string>
+    <string name="select_guest_button">pilih guest</string>
+</resources>
