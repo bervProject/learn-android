@@ -1,28 +1,16 @@
 package com.personal.learn_android;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
 
 public class EventActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
@@ -58,7 +46,8 @@ public class EventActivity extends AppCompatActivity {
                // Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(EventActivity.this,HomeActivity.class);
                 intent.putExtra(EXTRA_MESSAGE,message);
-                startActivity(intent);
+                setResult(Activity.RESULT_OK,intent);
+                finish();
             }
         });
 

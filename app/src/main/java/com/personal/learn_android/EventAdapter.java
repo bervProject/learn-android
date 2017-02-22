@@ -1,13 +1,10 @@
 package com.personal.learn_android;
 
 import android.content.Context;
-import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +23,6 @@ public class EventAdapter extends ArrayAdapter<EventModel> {
     }
 
     @Override
-
     public View getView(int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
         EventModel event = getItem(position);
