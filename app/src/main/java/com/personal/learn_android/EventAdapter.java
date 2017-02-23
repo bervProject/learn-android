@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 /**
@@ -44,7 +43,5 @@ public class EventAdapter extends ArrayAdapter<EventModel> {
 
         // Return the completed view to render on screen
         return convertView;
-
     }
-
 }

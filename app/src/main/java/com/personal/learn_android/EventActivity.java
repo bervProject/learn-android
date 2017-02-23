@@ -26,10 +26,10 @@ public class EventActivity extends AppCompatActivity {
         final EventAdapter adapter = new EventAdapter(this, arrayOfUsers);
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.event_view);
-        EventModel event1 = new EventModel("Makan-Makan","12-08-2017",R.drawable.events);
-        EventModel event2 = new EventModel("Liburan","19-08-2017",R.drawable.sample_0);
-        EventModel event3 = new EventModel("Kasih Makan","13-08-2017",R.drawable.sample_2);
-        EventModel event4 = new EventModel("Jalan Jalan","17-08-2017",R.drawable.sample_3);
+        EventModel event1 = new EventModel("Makan-Makan","12 Agustus 2017",R.drawable.events);
+        EventModel event2 = new EventModel("Liburan","19 Agustus 2017",R.drawable.sample_0);
+        EventModel event3 = new EventModel("Kasih Makan","13 Agustus 2017",R.drawable.sample_2);
+        EventModel event4 = new EventModel("Jalan Jalan","17 Agustus 2017",R.drawable.sample_3);
         adapter.add(event1);
         adapter.add(event2);
         adapter.add(event3);
@@ -41,17 +41,21 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // TODO Auto-generated method stub
                 String message= adapter.getItem(position).getEventName();
-               // Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(EventActivity.this,HomeActivity.class);
                 intent.putExtra(EXTRA_MESSAGE,message);
                 setResult(Activity.RESULT_OK,intent);
                 finish();
             }
         });
+    }
 
- }
-
-
+    @Override
+    public void onBackPressed(){
+        String message = null;
+        Intent intent = new Intent(EventActivity.this,HomeActivity.class);
+        intent.putExtra(EXTRA_MESSAGE,message);
+        setResult(Activity.RESULT_OK,intent);
+        finish();
+    }
 }

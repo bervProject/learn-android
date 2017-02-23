@@ -40,7 +40,5 @@ public class GuestAdapter extends ArrayAdapter<Guest> {
 
         // Return the completed view to render on screen
         return convertView;
-
     }
-
 }

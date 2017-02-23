@@ -1,42 +1,18 @@
 package com.personal.learn_android;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class GuestActivity extends AppCompatActivity {
@@ -82,8 +58,7 @@ public class GuestActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(GuestActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
-
+            //Toast.makeText(GuestActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -92,23 +67,18 @@ public class GuestActivity extends AppCompatActivity {
             // Making a request to url and getting response
             String url = DATA_URL;
             String jsonStr = sh.makeServiceCall(url);
-
             Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
                     JSONArray guests = new JSONArray(jsonStr);
-                    //Log.e(TAG,"Found : " + guests.length());
-                    // looping through All Contacts
-
+                    // looping through All Guests
                     for (int i = 0; i < guests.length(); i++) {
                         JSONObject c = guests.getJSONObject(i);
                         int id = c.getInt("id");
                         String name = c.getString("name");
                         String birthdate = c.getString("birthdate");
-
                         Guest guest = new Guest(id,R.drawable.face,name,birthdate);
-
-                        // adding contact to contact list
+                        // adding guest to guestList
                         guestList.add(guest);
                     }
 
@@ -162,4 +132,12 @@ public class GuestActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(GuestActivity.this,HomeActivity.class);
+        String message = null;
+        intent.putExtra(EXTRA_MESSAGE,message);
+        setResult(Activity.RESULT_OK,intent);
+        finish();
+    }
 }

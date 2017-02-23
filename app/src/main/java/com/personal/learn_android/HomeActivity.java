@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     Button guest = (Button) findViewById(R.id.button_guest);
                     if (guest_button == null) {
-                        guest.setText("Pilih Event");
+                        guest.setText("Pilih Guest");
                     } else {
                         guest.setText(guest_button);
                     }

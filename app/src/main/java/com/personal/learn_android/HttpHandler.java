@@ -1,7 +1,6 @@
 package com.personal.learn_android;
 
 import android.util.Log;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,7 +61,6 @@ public class HttpHandler {
                 e.printStackTrace();
             }
         }
-
         return sb.toString();
     }
 }
