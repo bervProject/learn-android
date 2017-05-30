@@ -2,36 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    >
+    android:padding="@dimen/content_padding"
+    android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/imageEvent"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:id="@+id/imageEvent"
         android:layout_marginRight="25dp"
-        />
+        android:contentDescription="@string/event_desc_image" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/eventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
-            android:text="EventName" />
+            android:layout_marginTop="10dp"
+            android:text="@string/event_label" />
 
         <TextView
             android:id="@+id/eventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:text="EventDate" />
+            android:layout_marginTop="5dp"
+            android:text="@string/event_date" />
 
     </LinearLayout>
 

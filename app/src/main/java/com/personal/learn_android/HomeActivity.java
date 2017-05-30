@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2017 Bervianto Leo Pratama
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.personal.learn_android;
 
 import android.content.Intent;
@@ -8,14 +24,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE_GUEST = "com.personal.learn_android.GUEST_MESSAGE";
-    public final static String EXTRA_MESSAGE_EVENT = "com.personal.learn_android.EVENT_MESSAGE";
     public String name;
-    public String guest_button;
-    public String event_button;
-
+    public String guest_text;
+    public String event_text;
     public final static int REQUEST_CODE_EVENT = 1;
     public final static int REQUEST_CODE_GUEST = 2;
+
+    private Button guest;
+    private Button event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,57 +40,51 @@ public class HomeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        if (message!= null) {
+        if (message != null) {
             TextView nameView = (TextView) findViewById(R.id.name_view);
             name = message;
             nameView.setText(name);
-        } else {
-            //TextView nameView = (TextView) findViewById(R.id.name_view);
-            //nameView.setText(name);
         }
-
+        guest = (Button) findViewById(R.id.button_guest);
+        event = (Button) findViewById(R.id.button_event);
     }
 
     public void chooseGuest(View view) {
         Intent intent = new Intent(this, GuestActivity.class);
-        startActivityForResult(intent,REQUEST_CODE_GUEST);
+        startActivityForResult(intent, REQUEST_CODE_GUEST);
     }
 
-    public void chooseEvent(View view){
+    public void chooseEvent(View view) {
         Intent intent = new Intent(this, EventActivity.class);
-        startActivityForResult(intent,REQUEST_CODE_EVENT);
+        startActivityForResult(intent, REQUEST_CODE_EVENT);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
+        switch (requestCode) {
             case REQUEST_CODE_GUEST:
                 String guestName = data.getStringExtra(GuestActivity.EXTRA_MESSAGE);
                 if (guestName != null) {
-                    Button guest = (Button) findViewById(R.id.button_guest);
-                    guest_button = guestName;
-                    guest.setText(guest_button);
+                    guest_text = guestName;
+                    guest.setText(guest_text);
                 } else {
-                    Button guest = (Button) findViewById(R.id.button_guest);
-                    if (guest_button == null) {
-                        guest.setText("Pilih Guest");
+                    if (guest_text == null) {
+                        guest.setText(getString(R.string.select_guest_button_text));
                     } else {
-                        guest.setText(guest_button);
+                        guest.setText(guest_text);
                     }
                 }
                 break;
             case REQUEST_CODE_EVENT:
                 String eventName = data.getStringExtra(EventActivity.EXTRA_MESSAGE);
                 if (eventName != null) {
-                    Button event = (Button) findViewById(R.id.button_event);
-                    event_button = eventName;
-                    event.setText(event_button);
+                    event_text = eventName;
+                    event.setText(event_text);
                 } else {
-                    Button event = (Button) findViewById(R.id.button_event);
-                    if (event_button == null) {
-                        event.setText("Pilih Event");
+                    if (event_text == null) {
+                        event.setText(getString(R.string.select_event_button_text));
                     } else {
-                        event.setText(event_button);
+                        event.setText(event_text);
                     }
                 }
                 break;

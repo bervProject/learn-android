@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2017 Bervianto Leo Pratama
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.personal.learn_android;
 
 import android.app.Activity;
@@ -10,12 +26,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import com.personal.learn_android.http.HttpHandler;
+import com.personal.learn_android.model.Guest;
+import com.personal.learn_android.model.GuestAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class GuestActivity extends AppCompatActivity {
+
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.GUEST_MESSAGE";
     //Web api url
     public static final String DATA_URL = "http://dry-sierra-6832.herokuapp.com/api/people";
@@ -23,10 +46,6 @@ public class GuestActivity extends AppCompatActivity {
     private String TAG = GuestActivity.class.getSimpleName();
     private GridView gridView;
     ArrayList<Guest> guestList;
-
-    static String NAMA = "nama";
-    static String BIRTHDATE = "birthdate";
-    String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +61,7 @@ public class GuestActivity extends AppCompatActivity {
     public String testTanggal(String tanggal) {
         String date = tanggal.split("-")[2];
         Integer day = Integer.valueOf(date);
-        if ((day % 2) == 0 && (day %3) == 0) {
+        if ((day % 2) == 0 && (day % 3) == 0) {
             return "iOS";
         } else if (day % 2 == 0) {
             return "blackberry";
@@ -65,8 +84,7 @@ public class GuestActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = DATA_URL;
-            String jsonStr = sh.makeServiceCall(url);
+            String jsonStr = sh.makeServiceCall(DATA_URL);
             Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
@@ -77,7 +95,7 @@ public class GuestActivity extends AppCompatActivity {
                         int id = c.getInt("id");
                         String name = c.getString("name");
                         String birthdate = c.getString("birthdate");
-                        Guest guest = new Guest(id,R.drawable.face,name,birthdate);
+                        Guest guest = new Guest(id, R.drawable.face, name, birthdate);
                         // adding guest to guestList
                         guestList.add(guest);
                     }
@@ -106,7 +124,6 @@ public class GuestActivity extends AppCompatActivity {
                     }
                 });
             }
-
             return null;
         }
 
@@ -121,12 +138,15 @@ public class GuestActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    String message= adapter.getItem(position).getName();
-                    Toast.makeText(getApplicationContext(), testTanggal(adapter.getItem(position).getBirthdate()), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(GuestActivity.this,HomeActivity.class);
-                    intent.putExtra(EXTRA_MESSAGE,message);
-                    setResult(Activity.RESULT_OK,intent);
-                    finish();
+                    Guest guest = adapter.getItem(position);
+                    if (guest != null) {
+                        String message = guest.getName();
+                        Toast.makeText(getApplicationContext(), testTanggal(guest.getBirthdate()), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
+                        intent.putExtra(EXTRA_MESSAGE, message);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
                 }
             });
         }
@@ -134,10 +154,10 @@ public class GuestActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(GuestActivity.this,HomeActivity.class);
+        Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
         String message = null;
-        intent.putExtra(EXTRA_MESSAGE,message);
-        setResult(Activity.RESULT_OK,intent);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 }

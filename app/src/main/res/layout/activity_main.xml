@@ -11,26 +11,26 @@
     tools:context="com.personal.learn_android.MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
         <EditText
+            android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/text_home"
             android:ems="10"
-            android:id="@+id/editText" />
+            android:hint="@string/text_home"
+            android:inputType="textPersonName" />
 
         <Button
-            android:text="@string/button_home"
+            android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="sendName"
-            android:id="@+id/button" />
+            android:text="@string/button_home" />
     </LinearLayout>
 </RelativeLayout>

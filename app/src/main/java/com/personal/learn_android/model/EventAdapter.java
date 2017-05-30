@@ -1,4 +1,20 @@
-package com.personal.learn_android;
+/*
+ * Copyright (c) 2017 Bervianto Leo Pratama
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.personal.learn_android.model;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,24 +23,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.personal.learn_android.R;
+import com.personal.learn_android.model.Event;
+
 import java.util.ArrayList;
 
-/**
- * Created by Bervianto Leo P on 21/02/2017.
- */
-
-public class EventAdapter extends ArrayAdapter<EventModel> {
+public class EventAdapter extends ArrayAdapter<Event> {
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
 
-    public EventAdapter(Context context, ArrayList<EventModel> events) {
+    public EventAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
     }
 
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
-        EventModel event = getItem(position);
+        Event event = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {

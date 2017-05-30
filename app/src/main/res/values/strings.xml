@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">learn-android</string>
-    <string name="text_home">masukan nama...</string>
+    <string name="home_title">Home</string>
+    <string name="event_title">Event</string>
+    <string name="guest_title">Guest</string>
+    <string name="text_home">masukan nama…</string>
     <string name="button_home">next</string>
     <string name="home_label">Nama : </string>
-    <string name="select_event_button">pilih event</string>
-    <string name="select_guest_button">pilih guest</string>
+    <string name="default_name">Android</string>
+    <string name="select_event_button_text">Pilih Event</string>
+    <string name="select_guest_button_text">Pilih Guest</string>
+    <string name="guest_desc_image">Guest Image</string>
+    <string name="guest_label">Guest</string>
+    <string name="event_desc_image">Guest Image</string>
+    <string name="event_label">Event</string>
+    <string name="event_date">01 January 2017</string>
 </resources>
