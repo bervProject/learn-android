@@ -16,6 +16,8 @@
 
 package com.personal.learn_android.model;
 
+import com.personal.learn_android.R;
+
 import io.realm.RealmObject;
 
 public class Event extends RealmObject {
@@ -24,10 +26,11 @@ public class Event extends RealmObject {
     private Integer image;
     private boolean selected;
 
+    // Default Event
     public Event() {
         this.event_name = "Event";
         this.tanggal_event = "01 Januari 2017";
-        this.image = -1;
+        this.image = R.drawable.events;
         this.selected = false;
     }
 
@@ -35,7 +38,7 @@ public class Event extends RealmObject {
         this.event_name = event_name;
         this.tanggal_event = tanggal_event;
         this.image = image;
-        selected = false;
+        this.selected = false;
     }
 
     public String getEventName() {

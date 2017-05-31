@@ -20,40 +20,70 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.personal.learn_android.R;
-import com.personal.learn_android.model.Guest;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class GuestAdapter extends ArrayAdapter<Guest> {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    public GuestAdapter(Context context, ArrayList<Guest> guests) {
-        super(context, 0, guests);
+public class GuestAdapter extends BaseAdapter {
+    private Context context;
+    private List<Guest> guests;
+
+    public GuestAdapter(Context context, List<Guest> guests) {
+        this.context = context;
+        this.guests = guests;
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public int getCount() {
+        return guests.size();
+    }
+
+    @Override
+    public Guest getItem(int position) {
+        return guests.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View view, final ViewGroup parent) {
         // Get the data item for this position
         Guest guest = getItem(position);
-
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_guest, parent, false);
+        ViewHolder holder;
+        if (view != null) {
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = LayoutInflater.from(context).inflate(R.layout.item_guest, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
         }
 
-        // Lookup view for data population
-        ImageView image = (ImageView) convertView.findViewById(R.id.image_guest);
-        TextView guestName = (TextView) convertView.findViewById(R.id.name_guest);
-
         // Populate the data into the template view using the data object
-        image.setImageResource(guest.getImage());
-        guestName.setText(guest.getName());
+        holder.image.setImageResource(guest.getImage());
+        holder.guestName.setText(guest.getName());
 
         // Return the completed view to render on screen
-        return convertView;
+        return view;
+    }
+
+    class ViewHolder {
+        @BindView(R.id.image_guest)
+        ImageView image;
+        @BindView(R.id.name_guest)
+        TextView guestName;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

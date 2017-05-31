@@ -16,6 +16,7 @@
 
 package com.personal.learn_android;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +45,10 @@ public class HomeActivity extends AppCompatActivity {
             TextView nameView = (TextView) findViewById(R.id.name_view);
             name = message;
             nameView.setText(name);
+
+            // Show Dialog isPalindrome
+            AlertDialog dialog = new AlertDialog.Builder(this).setTitle(getString(R.string.title_dialog_isPalindrom)).setMessage(isPalindrom(name)).create();
+            dialog.show();
         }
         guest = (Button) findViewById(R.id.button_guest);
         event = (Button) findViewById(R.id.button_event);
@@ -90,4 +95,27 @@ public class HomeActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    private String isPalindrom(String name) {
+        String temp = name.replaceAll("\\s+", "");
+        temp  = temp.toLowerCase();
+
+        int j = temp.length()-1;
+        int i = 0;
+        boolean palindrom = true;
+        while (palindrom && i <= j) {
+            if (temp.charAt(i) != temp.charAt(j-i)) {
+               palindrom = false;
+            } else {
+                i++;
+            }
+        }
+
+        if(palindrom) {
+            return getString(R.string.palindrome_message);
+        } else {
+            return getString(R.string.not_palindrome_message);
+        }
+    }
+
 }

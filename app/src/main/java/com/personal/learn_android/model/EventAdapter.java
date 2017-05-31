@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,36 +29,68 @@ import com.personal.learn_android.R;
 import com.personal.learn_android.model.Event;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class EventAdapter extends ArrayAdapter<Event> {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
+public class EventAdapter extends BaseAdapter {
 
-    public EventAdapter(Context context, ArrayList<Event> events) {
-        super(context, 0, events);
+    private Context context;
+    private List<Event> events;
+
+
+    public EventAdapter(Context context, List<Event> events) {
+        this.context = context;
+        this.events = events;
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public int getCount() {
+        return events.size();
+    }
+
+    @Override
+    public Event getItem(int position) {
+        return events.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View view, final ViewGroup parent) {
         // Get the data item for this position
         Event event = getItem(position);
-
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_event, parent, false);
+        ViewHolder holder;
+        if (view != null) {
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = LayoutInflater.from(context).inflate(R.layout.item_guest, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
         }
 
-        // Lookup view for data population
-        ImageView image = (ImageView) convertView.findViewById(R.id.imageEvent);
-        TextView eventName = (TextView) convertView.findViewById(R.id.eventName);
-        TextView eventDate = (TextView) convertView.findViewById(R.id.eventDate);
-
         // Populate the data into the template view using the data object
-        image.setImageResource(event.getImage());
-        eventName.setText(event.getEventName());
-        eventDate.setText(event.getTanggalEvent());
-
+        holder.image.setImageResource(event.getImage());
+        holder.eventName.setText(event.getEventName());
+        holder.eventDate.setText(event.getTanggalEvent());
         // Return the completed view to render on screen
-        return convertView;
+        return view;
+    }
+
+    class ViewHolder {
+        @BindView(R.id.imageEvent)
+        ImageView image;
+        @BindView(R.id.eventName)
+        TextView eventName;
+        @BindView(R.id.eventDate)
+        TextView eventDate;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

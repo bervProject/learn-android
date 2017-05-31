@@ -16,6 +16,8 @@
 
 package com.personal.learn_android.model;
 
+import com.personal.learn_android.R;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -27,9 +29,10 @@ public class Guest extends RealmObject {
     private String name;
     private String birthdate;
 
+    // Default Guest Input
     public Guest() {
         this.id = -1;
-        this.image = -1;
+        this.image = R.drawable.face;
         this.name = "Android";
         this.birthdate = "01 Januari 1997";
     }

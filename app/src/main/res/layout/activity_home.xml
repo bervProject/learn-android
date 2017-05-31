@@ -36,16 +36,14 @@
     <Button
         android:id="@+id/button_event"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:onClick="chooseEvent"
         android:text="@string/select_event_button_text" />
 
     <Button
         android:id="@+id/button_guest"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:onClick="chooseGuest"
         android:text="@string/select_guest_button_text" />
 

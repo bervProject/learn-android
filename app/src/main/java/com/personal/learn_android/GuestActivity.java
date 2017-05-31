@@ -18,47 +18,54 @@ package com.personal.learn_android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.personal.learn_android.http.HttpHandler;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.personal.learn_android.http.HttpService;
 import com.personal.learn_android.model.Guest;
 import com.personal.learn_android.model.GuestAdapter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
-import java.util.ArrayList;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
+import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GuestActivity extends AppCompatActivity {
 
-    public final static String EXTRA_MESSAGE = "com.personal.learn_android.GUEST_MESSAGE";
-    //Web api url
-    public static final String DATA_URL = "http://dry-sierra-6832.herokuapp.com/api/people";
+    @BindView(R.id.gridview)
+    GridView gridView;
 
+    public final static String EXTRA_MESSAGE = "com.personal.learn_android.GUEST_MESSAGE";
     private String TAG = GuestActivity.class.getSimpleName();
-    private GridView gridView;
-    ArrayList<Guest> guestList;
+
+    private HttpService service;
+    private GuestAdapter guestAdapter;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest);
-
-        guestList = new ArrayList<>();
-        gridView = (GridView) findViewById(R.id.gridview);
-
-        new GetGuests().execute();
+        ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(HttpService.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        service = retrofit.create(HttpService.class);
+        this.getData();
     }
 
-    public String testTanggal(String tanggal) {
+    private String testTanggal(String tanggal) {
         String date = tanggal.split("-")[2];
         Integer day = Integer.valueOf(date);
         if ((day % 2) == 0 && (day % 3) == 0) {
@@ -72,83 +79,47 @@ public class GuestActivity extends AppCompatActivity {
         }
     }
 
-
-    private class GetGuests extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //Toast.makeText(GuestActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(DATA_URL);
-            Log.e(TAG, "Response from url: " + jsonStr);
-            if (jsonStr != null) {
-                try {
-                    JSONArray guests = new JSONArray(jsonStr);
-                    // looping through All Guests
-                    for (int i = 0; i < guests.length(); i++) {
-                        JSONObject c = guests.getJSONObject(i);
-                        int id = c.getInt("id");
-                        String name = c.getString("name");
-                        String birthdate = c.getString("birthdate");
-                        Guest guest = new Guest(id, R.drawable.face, name, birthdate);
-                        // adding guest to guestList
-                        guestList.add(guest);
-                    }
-
-                } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-
+    private void getData() {
+        service.listGuests().enqueue(new Callback<List<Guest>>() {
+            @Override
+            public void onResponse(Call<List<Guest>> call, Response<List<Guest>> response) {
+                if (response.isSuccessful()) {
+                    List<Guest> guestList = response.body();
+                    // Update Realm Guest Object
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(guestList);
+                    realm.commitTransaction();
+                    guestAdapter = new GuestAdapter(GuestActivity.this, guestList);
+                    gridView.setAdapter(guestAdapter);
+                } else {
+                    // handle error
                 }
-
-            } else {
-                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Create the adapter to convert the array to views
-            final GuestAdapter adapter = new GuestAdapter(GuestActivity.this, guestList);
-            gridView.setAdapter(adapter);
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    Guest guest = adapter.getItem(position);
-                    if (guest != null) {
-                        String message = guest.getName();
-                        Toast.makeText(getApplicationContext(), testTanggal(guest.getBirthdate()), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
-                        intent.putExtra(EXTRA_MESSAGE, message);
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
-                    }
+            @Override
+            public void onFailure(Call<List<Guest>> call, Throwable t) {
+                t.printStackTrace();
+                // Using already downloaded List
+                List<Guest> guestList = realm.where(Guest.class).findAll();
+                if (guestList != null) {
+                    guestAdapter = new GuestAdapter(GuestActivity.this, guestList);
+                    gridView.setAdapter(guestAdapter);
                 }
-            });
+            }
+
+        });
+    }
+
+    @OnItemClick(R.id.gridview)
+    void onItemClicked(int position) {
+        Guest guest = guestAdapter.getItem(position);
+        if (guest != null) {
+            String message = guest.getName();
+            Toast.makeText(getApplicationContext(), testTanggal(guest.getBirthdate()), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
         }
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">learn-android</string>
+    <string name="app_name">Learn Android</string>
     <string name="home_title">Home</string>
     <string name="event_title">Event</string>
     <string name="guest_title">Guest</string>
@@ -14,4 +14,7 @@
     <string name="event_desc_image">Guest Image</string>
     <string name="event_label">Event</string>
     <string name="event_date">01 January 2017</string>
+    <string name="title_dialog_isPalindrom">Is Palindrom?</string>
+    <string name="palindrome_message">isPalindrome</string>
+    <string name="not_palindrome_message">not palindrome</string>
 </resources>
