@@ -67,7 +67,6 @@ public class GuestActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(HttpService.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
         service = retrofit.create(HttpService.class);
         this.getData();
-
         swipe.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

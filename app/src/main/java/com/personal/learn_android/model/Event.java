@@ -25,6 +25,8 @@ public class Event extends RealmObject {
     private String tanggal_event;
     private Integer image;
     private boolean selected;
+    private double latitude;
+    private double longitude;
 
     // Default Event
     public Event() {
@@ -32,13 +34,17 @@ public class Event extends RealmObject {
         this.tanggal_event = "01 Januari 2017";
         this.image = R.drawable.events;
         this.selected = false;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
     }
 
-    public Event(String event_name, String tanggal_event, Integer image) {
+    public Event(String event_name, String tanggal_event, Integer image, double latitude, double longitude) {
         this.event_name = event_name;
         this.tanggal_event = tanggal_event;
         this.image = image;
         this.selected = false;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getEventName() {
@@ -71,5 +77,21 @@ public class Event extends RealmObject {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

@@ -57,10 +57,10 @@ public class EventActivity extends AppCompatActivity {
     public void initial() {
         List<Event> listOfEvent = new ArrayList<>();
 
-        Event event1 = new Event("Makan-Makan", "12 Agustus 2017", R.drawable.events);
-        Event event2 = new Event("Liburan", "19 Agustus 2017", R.drawable.sample_0);
-        Event event3 = new Event("Kasih Makan", "13 Agustus 2017", R.drawable.sample_2);
-        Event event4 = new Event("Jalan Jalan", "17 Agustus 2017", R.drawable.sample_3);
+        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 10.2, 10.2);
+        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 20.3, 20.3);
+        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 20.3, 10.3);
+        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 10.3, 20.3);
         listOfEvent.add(event1);
         listOfEvent.add(event2);
         listOfEvent.add(event3);

@@ -68,7 +68,7 @@ public class EventAdapter extends BaseAdapter {
         if (view != null) {
             holder = (ViewHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_guest, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
         }

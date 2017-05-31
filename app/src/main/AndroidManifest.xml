@@ -23,12 +23,15 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/home_title" />
+            android:label="@string/home_title"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".EventActivity"
-            android:label="@string/event_title" />
+            android:label="@string/event_title"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".GuestActivity"
-            android:label="@string/guest_title" />
+            android:label="@string/guest_title"
+            android:theme="@style/AppTheme"/>
     </application>
 </manifest>
