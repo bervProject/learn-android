@@ -3,8 +3,10 @@
     <string name="home_title">Home</string>
     <string name="event_title">Event</string>
     <string name="guest_title">Guest</string>
+    <string name="welcome_title">Selamat Datang!</string>
+    <string name="welcome_desc">Sertakan gambar profil Anda untuk melengkapi profil</string>
     <string name="text_home">masukan nama…</string>
-    <string name="button_home">next</string>
+    <string name="button_home">Selesai</string>
     <string name="home_label">Nama : </string>
     <string name="default_name">Android</string>
     <string name="select_event_button_text">Pilih Event</string>

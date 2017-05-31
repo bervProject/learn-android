@@ -10,17 +10,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.personal.learn_android.GuestActivity">
 
-    <GridView
-        android:id="@+id/gridview"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh_guest"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
-        android:rowHeight="20dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" />
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:rowHeight="20dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
 
 

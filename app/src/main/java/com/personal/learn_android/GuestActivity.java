@@ -18,6 +18,7 @@ package com.personal.learn_android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
@@ -46,6 +47,9 @@ public class GuestActivity extends AppCompatActivity {
     @BindView(R.id.gridview)
     GridView gridView;
 
+    @BindView(R.id.swipe_refresh_guest)
+    SwipeRefreshLayout swipe;
+
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.GUEST_MESSAGE";
     private String TAG = GuestActivity.class.getSimpleName();
 
@@ -63,6 +67,13 @@ public class GuestActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(HttpService.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
         service = retrofit.create(HttpService.class);
         this.getData();
+
+        swipe.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+            }
+        });
     }
 
     private String testTanggal(String tanggal) {
@@ -79,6 +90,17 @@ public class GuestActivity extends AppCompatActivity {
         }
     }
 
+    private String isPrime(String tanggal) {
+        String date = tanggal.split("-")[1];
+        Integer day = Integer.valueOf(date);
+        if (day < 2) return "not prime";
+        if (day == 2) return "prime";
+        if (day % 2 == 0) return "not prime";
+        for (int i = 3; i * i <= day; i += 2)
+            if (day % i == 0) return "not prime";
+        return "prime";
+    }
+
     private void getData() {
         service.listGuests().enqueue(new Callback<List<Guest>>() {
             @Override
@@ -91,6 +113,7 @@ public class GuestActivity extends AppCompatActivity {
                     realm.commitTransaction();
                     guestAdapter = new GuestAdapter(GuestActivity.this, guestList);
                     gridView.setAdapter(guestAdapter);
+                    swipe.setRefreshing(false);
                 } else {
                     // handle error
                 }
@@ -105,6 +128,7 @@ public class GuestActivity extends AppCompatActivity {
                     guestAdapter = new GuestAdapter(GuestActivity.this, guestList);
                     gridView.setAdapter(guestAdapter);
                 }
+                swipe.setRefreshing(false);
             }
 
         });
