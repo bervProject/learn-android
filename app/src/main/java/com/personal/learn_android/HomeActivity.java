@@ -24,6 +24,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class HomeActivity extends AppCompatActivity {
     public String name;
     public String guest_text;
@@ -31,34 +35,37 @@ public class HomeActivity extends AppCompatActivity {
     public final static int REQUEST_CODE_EVENT = 1;
     public final static int REQUEST_CODE_GUEST = 2;
 
-    private Button guest;
-    private Button event;
+    @BindView(R.id.button_guest)
+    Button guest;
+    @BindView(R.id.button_event)
+    Button event;
+    @BindView(R.id.name_view)
+    TextView nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         if (message != null) {
-            TextView nameView = (TextView) findViewById(R.id.name_view);
             name = message;
             nameView.setText(name);
-
             // Show Dialog isPalindrome
             AlertDialog dialog = new AlertDialog.Builder(this).setTitle(getString(R.string.title_dialog_isPalindrom)).setMessage(isPalindrom(name)).create();
             dialog.show();
         }
-        guest = (Button) findViewById(R.id.button_guest);
-        event = (Button) findViewById(R.id.button_event);
     }
 
+    @OnClick(R.id.button_guest)
     public void chooseGuest(View view) {
         Intent intent = new Intent(this, GuestActivity.class);
         startActivityForResult(intent, REQUEST_CODE_GUEST);
     }
 
+    @OnClick(R.id.button_event)
     public void chooseEvent(View view) {
         Intent intent = new Intent(this, EventActivity.class);
         startActivityForResult(intent, REQUEST_CODE_EVENT);

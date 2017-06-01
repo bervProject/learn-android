@@ -13,10 +13,13 @@
     <string name="select_guest_button_text">Pilih Guest</string>
     <string name="guest_desc_image">Guest Image</string>
     <string name="guest_label">Guest</string>
-    <string name="event_desc_image">Guest Image</string>
+    <string name="event_desc_image">Event Image</string>
+    <string name="event_desc">This is version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.</string>
     <string name="event_label">Event</string>
     <string name="event_date">01 January 2017</string>
     <string name="title_dialog_isPalindrom">Is Palindrom?</string>
     <string name="palindrome_message">isPalindrome</string>
     <string name="not_palindrome_message">not palindrome</string>
+    <string name="action_search">Search</string>
+    <string name="action_add_event">New Event</string>
 </resources>

@@ -23,21 +23,27 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.MESSAGE";
+
+    @BindView(R.id.editText)
+    EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
     }
 
     public void sendName(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        String message = name.getText().toString();
         if (!message.equalsIgnoreCase("")) {
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);

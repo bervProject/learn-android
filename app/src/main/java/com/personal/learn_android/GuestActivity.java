@@ -19,6 +19,7 @@ package com.personal.learn_android;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
@@ -47,7 +48,6 @@ public class GuestActivity extends AppCompatActivity {
     @BindView(R.id.gridview)
     GridView gridView;
 
-    @BindView(R.id.swipe_refresh_guest)
     SwipeRefreshLayout swipe;
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.GUEST_MESSAGE";
@@ -62,17 +62,26 @@ public class GuestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest);
         ButterKnife.bind(this);
+        ActionBar ourActionBar = getSupportActionBar();
+        if(ourActionBar != null) {
+            ourActionBar.setDisplayHomeAsUpEnabled(true);
+        }
         realm = Realm.getDefaultInstance();
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(HttpService.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
-        service = retrofit.create(HttpService.class);
+        this.setupService();
         this.getData();
+        swipe = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_guest);
         swipe.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getData();
             }
         });
+    }
+
+    private void setupService() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(HttpService.BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
+        service = retrofit.create(HttpService.class);
     }
 
     private String testTanggal(String tanggal) {

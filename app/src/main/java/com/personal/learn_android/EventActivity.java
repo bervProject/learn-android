@@ -36,51 +36,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 
+
+
 public class EventActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
-
-    @BindView(R.id.event_view)
-    ListView listView;
-
-    EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-
-        ButterKnife.bind(this);
-        this.initial();
-    }
-
-    public void initial() {
-        List<Event> listOfEvent = new ArrayList<>();
-
-        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 10.2, 10.2);
-        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 20.3, 20.3);
-        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 20.3, 10.3);
-        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 10.3, 20.3);
-        listOfEvent.add(event1);
-        listOfEvent.add(event2);
-        listOfEvent.add(event3);
-        listOfEvent.add(event4);
-
-        // Create the adapter to convert the array to views
-        eventAdapter = new EventAdapter(this, listOfEvent);
-        listView.setAdapter(eventAdapter);
-    }
-
-    @OnItemClick(R.id.event_view)
-    void onItemClicked(int position) {
-        Event event = eventAdapter.getItem(position);
-        if (event != null) {
-            String message = event.getEventName();
-            Intent intent = new Intent(EventActivity.this, HomeActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, message);
-            setResult(Activity.RESULT_OK, intent);
-            finish();
-        }
     }
 
     @Override
