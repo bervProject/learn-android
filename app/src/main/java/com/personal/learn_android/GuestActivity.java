@@ -22,6 +22,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -162,5 +163,18 @@ public class GuestActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, message);
         setResult(Activity.RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                String message = null;
+                Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, message);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+        }
+        return true;
     }
 }
