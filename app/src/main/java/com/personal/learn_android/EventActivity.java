@@ -18,41 +18,125 @@ package com.personal.learn_android;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class EventActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.BubbleIconFactory;
+import com.google.maps.android.ui.IconGenerator;
+import com.personal.learn_android.model.Event;
+import com.personal.learn_android.model.EventPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Created by Bervianto Leo P on 02/06/2017.
+ */
+
+public class EventActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
+
+    private EventPagerAdapter eventPagerAdapter;
+
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    private ViewPager mViewPager;
+
+    List<Event> listEvent;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-        Toolbar eventToolbar = (Toolbar) findViewById(R.id.event_toolbar);
-        setSupportActionBar(eventToolbar);
-        ActionBar eventActionBar = getSupportActionBar();
-        if (eventActionBar != null) {
-            eventActionBar.setDisplayHomeAsUpEnabled(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.event_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar ourActionBar = getSupportActionBar();
+        if (ourActionBar != null) {
+            ourActionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        this.initial();
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        eventPagerAdapter = new EventPagerAdapter(getSupportFragmentManager(), listEvent);
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(eventPagerAdapter);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Event event = listEvent.get(position);
+                LatLng place = new LatLng(event.getLatitude(), event.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(place));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map_fragment_view);
+        mapFragment.getMapAsync(this);
+
     }
+
+    private void initial() {
+        listEvent = new ArrayList<>();
+
+        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 0.7, 113.2);
+        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 0.10, 113.3);
+        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 0.9, 113.5);
+        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 0.7, 115.3);
+        listEvent.add(event1);
+        listEvent.add(event2);
+        listEvent.add(event3);
+        listEvent.add(event4);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_event, menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_event, menu);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        String message = null;
         Intent intent = new Intent(EventActivity.this, HomeActivity.class);
+        String message = null;
         intent.putExtra(EXTRA_MESSAGE, message);
         setResult(Activity.RESULT_OK, intent);
         finish();
@@ -68,7 +152,58 @@ public class EventActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK, intent);
                 finish();
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        IconGenerator generator = new IconGenerator(this);
+        Random random = new Random();
+        for (Event event : listEvent) {
+            LatLng place = new LatLng(event.getLatitude(), event.getLongitude());
+            generator.setColor(Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
+            Bitmap icon = generator.makeIcon(event.getEventName());
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(place)
+                    .title(event.getEventName())
+                    .icon(BitmapDescriptorFactory.fromBitmap(icon)));
+        }
+        Event event = listEvent.get(0);
+        LatLng place = new LatLng(event.getLatitude(), event.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 8.0f));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String eventName = marker.getTitle();
+                int i = 0;
+                for (Event event : listEvent) {
+                    if (event.getEventName().equalsIgnoreCase(eventName)) {
+                        mViewPager.setCurrentItem(i);
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    private int ourColour(int i) {
+        if (i == 0) {
+            return Color.BLACK;
+        } else if (i == 1) {
+            return Color.BLUE;
+        } else if (i == 2) {
+            return Color.CYAN;
+        } else if (i == 3) {
+            return Color.DKGRAY;
+        } else if (i == 4) {
+            return Color.GREEN;
+        } else {
+            return Color.YELLOW;
+        }
+    }
 }
