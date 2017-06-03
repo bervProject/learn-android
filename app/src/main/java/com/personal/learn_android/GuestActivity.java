@@ -64,14 +64,14 @@ public class GuestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guest);
         ButterKnife.bind(this);
         ActionBar ourActionBar = getSupportActionBar();
-        if(ourActionBar != null) {
+        if (ourActionBar != null) {
             ourActionBar.setDisplayHomeAsUpEnabled(true);
         }
         realm = Realm.getDefaultInstance();
         this.setupService();
         this.getData();
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_guest);
-        swipe.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getData();
@@ -167,14 +167,16 @@ public class GuestActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                String message = null;
-                Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, message);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            String message = null;
+            Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

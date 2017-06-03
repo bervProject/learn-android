@@ -85,10 +85,10 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void setupMapView() {
-        if(mViewPager.getVisibility() != View.VISIBLE) {
+        if (mViewPager.getVisibility() != View.VISIBLE) {
             mViewPager.setVisibility(View.VISIBLE);
         }
-        if(mapFragment.isHidden()) {
+        if (mapFragment.isHidden()) {
             fm.beginTransaction().show(mapFragment).commit();
         }
     }
@@ -163,23 +163,24 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                String message = null;
-                Intent intent = new Intent(EventActivity.this, HomeActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, message);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-                break;
-            case R.id.action_add_event:
-                fm.beginTransaction()
-                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                        .detach(eventFragment).addToBackStack(null)
-                        .commit();
-                setupMapView();
-                break;
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            String message = null;
+            Intent intent = new Intent(EventActivity.this, HomeActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+            return true;
+        } else if (id == R.id.action_add_event) {
+            fm.beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    .detach(eventFragment).addToBackStack(null)
+                    .commit();
+            setupMapView();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
