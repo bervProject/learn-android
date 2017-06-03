@@ -5,6 +5,7 @@
     android:id="@+id/activity_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:windowBackground"
     tools:context="com.personal.learn_android.EventActivity">
 
     <android.support.v7.widget.Toolbar
@@ -16,17 +17,27 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+    <fragment
+        android:id="@+id/list_view_fragment"
+        android:name="com.personal.learn_android.EventFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/event_toolbar"
+        />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_below="@id/event_toolbar"
+        android:clipToPadding="false"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@id/event_toolbar"/>
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:visibility="gone"
+        android:background="?android:windowBackground"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <fragment
         android:id="@+id/map_fragment_view"

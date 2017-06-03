@@ -21,12 +21,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -61,6 +64,9 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
     List<Event> listEvent;
     private GoogleMap mMap;
+    SupportMapFragment mapFragment;
+    EventFragment eventFragment;
+    FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,37 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         }
 
         this.initial();
+    }
+
+    private void setupMapView() {
+        if(mViewPager.getVisibility() != View.VISIBLE) {
+            mViewPager.setVisibility(View.VISIBLE);
+        }
+        if(mapFragment.isHidden()) {
+            fm.beginTransaction().show(mapFragment).commit();
+        }
+    }
+
+    private void initial() {
+        listEvent = new ArrayList<>();
+
+        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 0.7, 113.2);
+        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 0.10, 113.3);
+        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 0.9, 113.5);
+        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 0.7, 115.3);
+        listEvent.add(event1);
+        listEvent.add(event2);
+        listEvent.add(event3);
+        listEvent.add(event4);
+
+        eventFragment = new EventFragment();
+        fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .add(R.id.list_view_fragment, eventFragment)
+                .commit();
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map_fragment_view);
+        fm.beginTransaction().hide(mapFragment).commit();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -103,24 +140,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
             }
         });
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_fragment_view);
+        mViewPager.setVisibility(View.GONE);
         mapFragment.getMapAsync(this);
-
-    }
-
-    private void initial() {
-        listEvent = new ArrayList<>();
-
-        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 0.7, 113.2);
-        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 0.10, 113.3);
-        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 0.9, 113.5);
-        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 0.7, 115.3);
-        listEvent.add(event1);
-        listEvent.add(event2);
-        listEvent.add(event3);
-        listEvent.add(event4);
     }
 
 
@@ -149,6 +170,14 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 intent.putExtra(EXTRA_MESSAGE, message);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+                break;
+            case R.id.action_add_event:
+                fm.beginTransaction()
+                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                        .detach(eventFragment).addToBackStack(null)
+                        .commit();
+                setupMapView();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

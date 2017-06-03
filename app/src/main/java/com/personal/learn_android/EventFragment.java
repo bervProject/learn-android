@@ -16,6 +16,7 @@
 
 package com.personal.learn_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,7 +42,14 @@ public class EventFragment extends Fragment {
     ListView listView;
     EventAdapter eventAdapter;
 
+    private static final String ARG_ARRAY = "fragment_array_list_view";
+
     private Unbinder unbinder;
+
+    private List<Event> eventList;
+
+    public EventFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,19 +68,19 @@ public class EventFragment extends Fragment {
     }
 
     public void initial() {
-        List<Event> listOfEvent = new ArrayList<>();
+        eventList = new ArrayList<>();
 
         Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 10.2, 10.2);
         Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 20.3, 20.3);
         Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 20.3, 10.3);
         Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 10.3, 20.3);
-        listOfEvent.add(event1);
-        listOfEvent.add(event2);
-        listOfEvent.add(event3);
-        listOfEvent.add(event4);
+        eventList.add(event1);
+        eventList.add(event2);
+        eventList.add(event3);
+        eventList.add(event4);
 
         // Create the adapter to convert the array to views
-        eventAdapter = new EventAdapter(getActivity(), listOfEvent);
+        eventAdapter = new EventAdapter(getActivity(), eventList);
         listView.setAdapter(eventAdapter);
     }
 
@@ -80,11 +88,11 @@ public class EventFragment extends Fragment {
     void onItemClicked(int position) {
         Event event = eventAdapter.getItem(position);
         if (event != null) {
-            // String message = event.getEventName();
-            // Intent intent = new Intent(EventActivity.this, HomeActivity.class);
-            // intent.putExtra(EXTRA_MESSAGE, message);
-            // setResult(Activity.RESULT_OK, intent);
-            // finish();
+            String message = event.getEventName();
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            intent.putExtra(EventActivity.EXTRA_MESSAGE, message);
+            getActivity().setResult(getActivity().RESULT_OK, intent);
+            getActivity().finish();
         }
     }
 }
