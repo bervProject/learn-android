@@ -122,10 +122,10 @@ public class GuestActivity extends AppCompatActivity {
                     realm.commitTransaction();
                     guestAdapter = new GuestAdapter(GuestActivity.this, guestList);
                     gridView.setAdapter(guestAdapter);
-                    swipe.setRefreshing(false);
                 } else {
                     // handle error
                 }
+                swipe.setRefreshing(false);
             }
 
             @Override
@@ -175,6 +175,6 @@ public class GuestActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK, intent);
                 finish();
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -16,9 +16,6 @@
 
 package com.personal.learn_android;
 
-import android.app.Activity;
-import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,7 +53,8 @@ public class EventFragment extends Fragment {
         return view;
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -89,6 +87,4 @@ public class EventFragment extends Fragment {
             // finish();
         }
     }
-
-
 }

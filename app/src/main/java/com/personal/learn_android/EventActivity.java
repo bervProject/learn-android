@@ -25,7 +25,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -37,7 +36,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.ui.BubbleIconFactory;
 import com.google.maps.android.ui.IconGenerator;
 import com.personal.learn_android.model.Event;
 import com.personal.learn_android.model.EventPagerAdapter;
@@ -164,7 +162,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             LatLng place = new LatLng(event.getLatitude(), event.getLongitude());
             generator.setColor(Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
             Bitmap icon = generator.makeIcon(event.getEventName());
-            Marker marker = mMap.addMarker(new MarkerOptions()
+            mMap.addMarker(new MarkerOptions()
                     .position(place)
                     .title(event.getEventName())
                     .icon(BitmapDescriptorFactory.fromBitmap(icon)));
@@ -189,21 +187,5 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                 return true;
             }
         });
-    }
-
-    private int ourColour(int i) {
-        if (i == 0) {
-            return Color.BLACK;
-        } else if (i == 1) {
-            return Color.BLUE;
-        } else if (i == 2) {
-            return Color.CYAN;
-        } else if (i == 3) {
-            return Color.DKGRAY;
-        } else if (i == 4) {
-            return Color.GREEN;
-        } else {
-            return Color.YELLOW;
-        }
     }
 }

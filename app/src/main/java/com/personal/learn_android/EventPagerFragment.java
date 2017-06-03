@@ -24,6 +24,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by Bervianto Leo P on 03/06/2017.
  */
@@ -31,6 +35,13 @@ import android.widget.TextView;
 public class EventPagerFragment extends Fragment {
     private static final String ARG_SECTION_IMAGE = "section_image";
     private static final String ARG_SECTION_NAME = "section_name";
+
+    @BindView(R.id.event_map_image)
+    ImageView image;
+    @BindView(R.id.event_map_text)
+    TextView textView;
+
+    private Unbinder unbinder;
 
     public EventPagerFragment() {
     }
@@ -52,10 +63,15 @@ public class EventPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_event_map, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.event_map_text);
+        unbinder = ButterKnife.bind(this, rootView);
         textView.setText(getArguments().getString(ARG_SECTION_NAME));
-        ImageView image = (ImageView) rootView.findViewById(R.id.event_map_image);
         image.setImageResource(getArguments().getInt(ARG_SECTION_IMAGE));
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }
