@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.personal.learn_android.model;
+package com.personal.learn_android.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.personal.learn_android.EventPagerFragment;
+import com.personal.learn_android.model.Event;
 
 import java.util.List;
 

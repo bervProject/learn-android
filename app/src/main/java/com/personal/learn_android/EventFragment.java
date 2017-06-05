@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.personal.learn_android.model.Event;
-import com.personal.learn_android.model.EventAdapter;
+import com.personal.learn_android.adapter.EventAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

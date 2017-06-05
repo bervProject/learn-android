@@ -105,20 +105,20 @@ public class HomeActivity extends AppCompatActivity {
 
     private String isPalindrom(String name) {
         String temp = name.replaceAll("\\s+", "");
-        temp  = temp.toLowerCase();
+        temp = temp.toLowerCase();
 
-        int j = temp.length()-1;
+        int j = temp.length() - 1;
         int i = 0;
         boolean palindrom = true;
         while (palindrom && i <= j) {
-            if (temp.charAt(i) != temp.charAt(j-i)) {
-               palindrom = false;
+            if (temp.charAt(i) != temp.charAt(j - i)) {
+                palindrom = false;
             } else {
                 i++;
             }
         }
 
-        if(palindrom) {
+        if (palindrom) {
             return getString(R.string.palindrome_message);
         } else {
             return getString(R.string.not_palindrome_message);

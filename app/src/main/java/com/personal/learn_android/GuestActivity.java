@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.personal.learn_android.http.HttpService;
 import com.personal.learn_android.model.Guest;
-import com.personal.learn_android.model.GuestAdapter;
+import com.personal.learn_android.adapter.GuestAdapter;
 
 import java.util.List;
 

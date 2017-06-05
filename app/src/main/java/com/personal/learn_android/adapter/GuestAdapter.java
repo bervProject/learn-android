@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.personal.learn_android.model;
+package com.personal.learn_android.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.personal.learn_android.R;
+import com.personal.learn_android.model.Guest;
 
 import java.util.List;
 
