@@ -133,7 +133,7 @@ public class GuestActivity extends AppCompatActivity {
                 t.printStackTrace();
                 // Using already downloaded List
                 List<Guest> guestList = realm.where(Guest.class).findAll();
-                if (guestList != null) {
+                if (!guestList.isEmpty()) {
                     guestAdapter = new GuestAdapter(GuestActivity.this, guestList);
                     gridView.setAdapter(guestAdapter);
                 }

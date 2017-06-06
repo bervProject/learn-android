@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.Unbinder;
+import io.realm.Realm;
 
 
 public class EventFragment extends Fragment {
@@ -47,6 +48,7 @@ public class EventFragment extends Fragment {
     private Unbinder unbinder;
 
     private List<Event> eventList;
+    Realm realm;
 
     public EventFragment() {
     }
@@ -57,6 +59,7 @@ public class EventFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event, container, false);
         unbinder = ButterKnife.bind(this, view);
+        realm = Realm.getDefaultInstance();
         this.initial();
         return view;
     }
@@ -68,20 +71,11 @@ public class EventFragment extends Fragment {
     }
 
     public void initial() {
-        eventList = new ArrayList<>();
-
-        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 10.2, 10.2);
-        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 20.3, 20.3);
-        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 20.3, 10.3);
-        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 10.3, 20.3);
-        eventList.add(event1);
-        eventList.add(event2);
-        eventList.add(event3);
-        eventList.add(event4);
-
-        // Create the adapter to convert the array to views
-        eventAdapter = new EventAdapter(getActivity(), eventList);
-        listView.setAdapter(eventAdapter);
+        eventList =  realm.where(Event.class).findAll();
+        if (!eventList.isEmpty()) {
+            eventAdapter = new EventAdapter(getActivity(), eventList);
+            listView.setAdapter(eventAdapter);
+        }
     }
 
     @OnItemClick(R.id.event_view)

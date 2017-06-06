@@ -46,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import io.realm.Realm;
+
 /**
  * Created by Bervianto Leo P on 02/06/2017.
  */
@@ -66,6 +68,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     SupportMapFragment mapFragment;
     EventFragment eventFragment;
     FragmentManager fm;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
             ourActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        realm = Realm.getDefaultInstance();
+
         this.initial();
     }
 
@@ -93,16 +98,24 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void initial() {
-        listEvent = new ArrayList<>();
 
-        Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 0.7, 113.2);
-        Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 0.10, 113.3);
-        Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 0.9, 113.5);
-        Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 0.7, 115.3);
-        listEvent.add(event1);
-        listEvent.add(event2);
-        listEvent.add(event3);
-        listEvent.add(event4);
+        listEvent =  realm.where(Event.class).findAll();
+        if (listEvent.isEmpty()) {
+            listEvent = new ArrayList<>();
+
+            Event event1 = new Event("Event 1", "12 Agustus 2017", R.drawable.events, 0.7, 113.2);
+            Event event2 = new Event("Event 2", "19 Agustus 2017", R.drawable.events, 0.10, 113.3);
+            Event event3 = new Event("Event 3", "13 Agustus 2017", R.drawable.events, 0.9, 113.5);
+            Event event4 = new Event("Event 4", "17 Agustus 2017", R.drawable.events, 0.7, 115.3);
+            listEvent.add(event1);
+            listEvent.add(event2);
+            listEvent.add(event3);
+            listEvent.add(event4);
+
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(listEvent);
+            realm.commitTransaction();
+        }
 
         eventFragment = new EventFragment();
         fm = getSupportFragmentManager();
