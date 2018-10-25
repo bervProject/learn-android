@@ -40,6 +40,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.2.6'
     compile 'com.android.support:design:25.3.1'
     compile 'com.github.moondroid.coverflow:library:1.0'
-    compile 'com.google.maps.android:android-maps-utils:0.4'
+    compile 'com.google.maps.android:android-maps-utils:0.5'
 }
 
