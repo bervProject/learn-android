@@ -1,6 +1,7 @@
 # learn-android
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/16726241a51d4e9c8e782b2cbd9ad47f)](https://app.codacy.com/app/berviantoleo/learn-android_2?utm_source=github.com&utm_medium=referral&utm_content=bervProject/learn-android&utm_campaign=Badge_Grade_Settings)
+[![Build Status](https://travis-ci.org/bervProject/learn-android.svg?branch=master)](https://travis-ci.org/bervProject/learn-android)
 
 Learn build simple Android Application. Some component have custom layout. Feel free to learn how to customize it.
 
