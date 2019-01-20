@@ -17,12 +17,12 @@
 package com.personal.learn_android;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.MESSAGE";
 
     @BindView(R.id.editText)
-    EditText name;
+    protected EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

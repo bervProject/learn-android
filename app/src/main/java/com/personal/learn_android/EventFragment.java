@@ -18,18 +18,18 @@ package com.personal.learn_android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.personal.learn_android.model.Event;
 import com.personal.learn_android.adapter.EventAdapter;
+import com.personal.learn_android.model.Event;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
@@ -40,15 +40,11 @@ import io.realm.Realm;
 public class EventFragment extends Fragment {
 
     @BindView(R.id.event_view)
-    ListView listView;
-    EventAdapter eventAdapter;
-
-    private static final String ARG_ARRAY = "fragment_array_list_view";
-
+    protected ListView listView;
+    private EventAdapter eventAdapter;
     private Unbinder unbinder;
-
     private List<Event> eventList;
-    Realm realm;
+    private Realm realm;
 
     public EventFragment() {
     }
@@ -70,7 +66,7 @@ public class EventFragment extends Fragment {
         unbinder.unbind();
     }
 
-    public void initial() {
+    private void initial() {
         eventList =  realm.where(Event.class).findAll();
         if (!eventList.isEmpty()) {
             eventAdapter = new EventAdapter(getActivity(), eventList);
@@ -82,11 +78,14 @@ public class EventFragment extends Fragment {
     void onItemClicked(int position) {
         Event event = eventAdapter.getItem(position);
         if (event != null) {
-            String message = event.getEventName();
-            Intent intent = new Intent(getActivity(), HomeActivity.class);
-            intent.putExtra(EventActivity.EXTRA_MESSAGE, message);
-            getActivity().setResult(getActivity().RESULT_OK, intent);
-            getActivity().finish();
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                String message = event.getEventName();
+                Intent intent = new Intent(activity, HomeActivity.class);
+                intent.putExtra(EventActivity.EXTRA_MESSAGE, message);
+                activity.setResult(FragmentActivity.RESULT_OK, intent);
+                activity.finish();
+            }
         }
     }
 }

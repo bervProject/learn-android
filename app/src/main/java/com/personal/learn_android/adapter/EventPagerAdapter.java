@@ -16,14 +16,14 @@
 
 package com.personal.learn_android.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-
 import com.personal.learn_android.EventPagerFragment;
 import com.personal.learn_android.model.Event;
 
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
  * Created by Bervianto Leo P on 03/06/2017.

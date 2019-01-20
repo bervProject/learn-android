@@ -21,11 +21,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,16 +31,22 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
-import com.personal.learn_android.model.Event;
 import com.personal.learn_android.adapter.EventPagerAdapter;
+import com.personal.learn_android.model.Event;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 /**
@@ -56,35 +57,35 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.EVENT_MESSAGE";
 
-    private EventPagerAdapter eventPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    @BindView(R.id.container)
+    protected ViewPager mViewPager;
+    @BindView(R.id.event_toolbar)
+    protected Toolbar toolbar;
 
-    List<Event> listEvent;
+    private EventPagerAdapter eventPagerAdapter;
+
+    private List<Event> listEvent;
     private GoogleMap mMap;
-    SupportMapFragment mapFragment;
-    EventFragment eventFragment;
-    FragmentManager fm;
+    private SupportMapFragment mapFragment;
+    private EventFragment eventFragment;
+    private FragmentManager fm;
     private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.event_toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar ourActionBar = getSupportActionBar();
         if (ourActionBar != null) {
             ourActionBar.setDisplayHomeAsUpEnabled(true);
         }
-
         realm = Realm.getDefaultInstance();
-
         this.initial();
     }
 
@@ -119,9 +120,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
         eventFragment = new EventFragment();
         fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .add(R.id.list_view_fragment, eventFragment)
-                .commit();
+        fm.beginTransaction().add(R.id.list_view_fragment, eventFragment).commit();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_fragment_view);
         fm.beginTransaction().hide(mapFragment).commit();
@@ -130,8 +129,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         // primary sections of the activity.
         eventPagerAdapter = new EventPagerAdapter(getSupportFragmentManager(), listEvent);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(eventPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -213,21 +210,18 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         LatLng place = new LatLng(event.getLatitude(), event.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 8.0f));
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                String eventName = marker.getTitle();
-                int i = 0;
-                for (Event event : listEvent) {
-                    if (event.getEventName().equalsIgnoreCase(eventName)) {
-                        mViewPager.setCurrentItem(i);
-                        break;
-                    } else {
-                        i++;
-                    }
+        mMap.setOnMarkerClickListener(marker -> {
+            String eventName = marker.getTitle();
+            int i = 0;
+            for (Event event1 : listEvent) {
+                if (event1.getEventName().equalsIgnoreCase(eventName)) {
+                    mViewPager.setCurrentItem(i);
+                    break;
+                } else {
+                    i++;
                 }
-                return true;
             }
+            return true;
         });
     }
 }

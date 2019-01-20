@@ -18,9 +18,6 @@ package com.personal.learn_android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -28,12 +25,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.personal.learn_android.adapter.GuestAdapter;
 import com.personal.learn_android.http.HttpService;
 import com.personal.learn_android.model.Guest;
-import com.personal.learn_android.adapter.GuestAdapter;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
@@ -47,13 +48,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GuestActivity extends AppCompatActivity {
 
     @BindView(R.id.gridview)
-    GridView gridView;
-
-    SwipeRefreshLayout swipe;
+    protected GridView gridView;
+    @BindView(R.id.swipe_refresh_guest)
+    protected SwipeRefreshLayout swipe;
 
     public final static String EXTRA_MESSAGE = "com.personal.learn_android.GUEST_MESSAGE";
-    private String TAG = GuestActivity.class.getSimpleName();
-
     private HttpService service;
     private GuestAdapter guestAdapter;
     private Realm realm;
@@ -68,15 +67,9 @@ public class GuestActivity extends AppCompatActivity {
             ourActionBar.setDisplayHomeAsUpEnabled(true);
         }
         realm = Realm.getDefaultInstance();
+        swipe.setOnRefreshListener(this::getData);
         this.setupService();
         this.getData();
-        swipe = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_guest);
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-            }
-        });
     }
 
     private void setupService() {
@@ -85,9 +78,9 @@ public class GuestActivity extends AppCompatActivity {
         service = retrofit.create(HttpService.class);
     }
 
-    private String testTanggal(String tanggal) {
-        String date = tanggal.split("-")[2];
-        Integer day = Integer.valueOf(date);
+    private String dateTest(String date) {
+        String result = date.split("-")[2];
+        Integer day = Integer.valueOf(result);
         if ((day % 2) == 0 && (day % 3) == 0) {
             return "iOS";
         } else if (day % 2 == 0) {
@@ -99,9 +92,9 @@ public class GuestActivity extends AppCompatActivity {
         }
     }
 
-    private String isPrime(String tanggal) {
-        String date = tanggal.split("-")[1];
-        Integer day = Integer.valueOf(date);
+    private String isPrime(String date) {
+        String result = date.split("-")[1];
+        int day = Integer.parseInt(result);
         if (day < 2) return "not prime";
         if (day == 2) return "prime";
         if (day % 2 == 0) return "not prime";
@@ -113,7 +106,7 @@ public class GuestActivity extends AppCompatActivity {
     private void getData() {
         service.listGuests().enqueue(new Callback<List<Guest>>() {
             @Override
-            public void onResponse(Call<List<Guest>> call, Response<List<Guest>> response) {
+            public void onResponse(@NonNull Call<List<Guest>> call, @NonNull Response<List<Guest>> response) {
                 if (response.isSuccessful()) {
                     List<Guest> guestList = response.body();
                     // Update Realm Guest Object
@@ -129,7 +122,7 @@ public class GuestActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Guest>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Guest>> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 // Using already downloaded List
                 List<Guest> guestList = realm.where(Guest.class).findAll();
@@ -148,7 +141,7 @@ public class GuestActivity extends AppCompatActivity {
         Guest guest = guestAdapter.getItem(position);
         if (guest != null) {
             String message = guest.getName();
-            Toast.makeText(getApplicationContext(), testTanggal(guest.getBirthdate()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), dateTest(guest.getBirthDate()), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(GuestActivity.this, HomeActivity.class);
             intent.putExtra(EXTRA_MESSAGE, message);
             setResult(Activity.RESULT_OK, intent);

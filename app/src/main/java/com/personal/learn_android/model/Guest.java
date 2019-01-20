@@ -27,21 +27,21 @@ public class Guest extends RealmObject {
 
     private Integer image;
     private String name;
-    private String birthdate;
+    private String birthDate;
 
     // Default Guest Input
     public Guest() {
         this.id = -1;
         this.image = R.drawable.face;
         this.name = "Android";
-        this.birthdate = "01 Januari 1997";
+        this.birthDate = "01 Januari 1997";
     }
 
     public Guest(int id, Integer image, String name, String birthdate) {
         this.id = id;
         this.image = image;
         this.name = name;
-        this.birthdate = birthdate;
+        this.birthDate = birthdate;
     }
 
     public int getId() {
@@ -52,8 +52,8 @@ public class Guest extends RealmObject {
         return name;
     }
 
-    public String getBirthdate() {
-        return birthdate;
+    public String getBirthDate() {
+        return birthDate;
     }
 
     public Integer getImage() {
@@ -72,7 +72,7 @@ public class Guest extends RealmObject {
         this.name = name;
     }
 
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 }
