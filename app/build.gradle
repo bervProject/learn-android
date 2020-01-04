@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 }
 
