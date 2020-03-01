@@ -65,8 +65,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     @BindView(R.id.event_toolbar)
     protected Toolbar toolbar;
 
-    private EventPagerAdapter eventPagerAdapter;
-
     private List<Event> listEvent;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -127,7 +125,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        eventPagerAdapter = new EventPagerAdapter(getSupportFragmentManager(), listEvent);
+        EventPagerAdapter eventPagerAdapter = new EventPagerAdapter(getSupportFragmentManager(), listEvent);
 
         mViewPager.setAdapter(eventPagerAdapter);
 

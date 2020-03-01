@@ -43,7 +43,6 @@ public class EventFragment extends Fragment {
     protected ListView listView;
     private EventAdapter eventAdapter;
     private Unbinder unbinder;
-    private List<Event> eventList;
     private Realm realm;
 
     public EventFragment() {
@@ -67,7 +66,7 @@ public class EventFragment extends Fragment {
     }
 
     private void initial() {
-        eventList =  realm.where(Event.class).findAll();
+        List<Event> eventList = realm.where(Event.class).findAll();
         if (!eventList.isEmpty()) {
             eventAdapter = new EventAdapter(getActivity(), eventList);
             listView.setAdapter(eventAdapter);
