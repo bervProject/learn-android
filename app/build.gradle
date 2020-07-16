@@ -6,7 +6,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.personal.learn_android"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 4
         versionName "1.3"
