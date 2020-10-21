@@ -14,7 +14,7 @@ android:
     - 'google-gdk-license-.+'
 
 jdk:
-  - oraclejdk12
+  - oraclejdk8
 
 before_script:
   - echo y | android update sdk -u -a -t tools
