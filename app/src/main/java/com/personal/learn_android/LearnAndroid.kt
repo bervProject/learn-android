@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.personal.learn_android
 
-package com.personal.learn_android;
+import android.app.Application
+import io.realm.Realm
 
-import android.app.Application;
-
-import io.realm.Realm;
-
-public class LearnAndroid extends Application {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Realm.init(this);
+class LearnAndroid : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        Realm.init(this)
     }
 }

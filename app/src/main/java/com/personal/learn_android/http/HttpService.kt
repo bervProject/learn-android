@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.personal.learn_android.http
 
-package com.personal.learn_android.http;
-
-import com.personal.learn_android.model.Guest;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
+import com.personal.learn_android.model.Guest
+import retrofit2.Call
+import retrofit2.http.GET
 
 /**
  * Created by Bervianto Leo P on 30/05/2017.
  */
-
-public interface HttpService {
-
-    String BASE_URL = "http://dry-sierra-6832.herokuapp.com/";
-
+interface HttpService {
     @GET("api/people")
-    Call<List<Guest>> listGuests();
+    fun listGuests(): Call<List<Guest>>
+
+    companion object {
+        const val BASE_URL = "http://dry-sierra-6832.herokuapp.com/"
+    }
 }
