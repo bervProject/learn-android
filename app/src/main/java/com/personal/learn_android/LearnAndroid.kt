@@ -16,9 +16,10 @@
 package com.personal.learn_android
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 import io.realm.Realm
 
-class LearnAndroid : Application() {
+class LearnAndroid : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
