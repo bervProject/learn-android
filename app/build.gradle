@@ -6,7 +6,6 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.personal.learn_android"
         minSdkVersion 16
