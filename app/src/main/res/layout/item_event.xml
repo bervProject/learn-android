@@ -30,7 +30,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/event_label" />
+                    android:text="@string/event_label"
+                    android:layout_marginStart="10dp" />
 
                 <TextView
                     android:id="@+id/eventDate"
@@ -40,7 +41,8 @@
                     android:textColor="@android:color/holo_orange_light"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/event_date" />
+                    android:text="@string/event_date"
+                    android:layout_marginStart="10dp" />
 
                 <TextView
                     android:id="@+id/eventDesc"
@@ -50,7 +52,8 @@
                     android:textColor="@android:color/darker_gray"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/event_desc" />
+                    android:text="@string/event_desc"
+                    android:layout_marginStart="10dp" />
 
 
             </LinearLayout>

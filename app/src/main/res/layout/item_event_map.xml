@@ -25,7 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/events" />
+        app:srcCompat="@drawable/events"
+        android:contentDescription="@string/event_map_image" />
 
     <TextView
         android:id="@+id/event_map_text"

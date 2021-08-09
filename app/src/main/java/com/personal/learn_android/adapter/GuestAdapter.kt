@@ -19,9 +19,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.personal.learn_android.R
 import com.personal.learn_android.model.Guest
-import kotlinx.android.synthetic.main.item_guest.view.*
 
 class GuestAdapter(private val guests: List<Guest>) : BaseAdapter() {
     override fun getCount(): Int {
@@ -42,8 +43,10 @@ class GuestAdapter(private val guests: List<Guest>) : BaseAdapter() {
             // Get the data item for this position
             val guest = getItem(position)
             // Populate the data into the template view using the data object
-            view.image_guest.setImageResource(guest.image)
-            view.name_guest.text = guest.name
+            val image_guest = view.findViewById<ImageView>(R.id.image_guest)
+            val name_guest = view.findViewById<TextView>(R.id.name_guest)
+            image_guest.setImageResource(guest.image)
+            name_guest.text = guest.name
             return view
         }
         return convertView

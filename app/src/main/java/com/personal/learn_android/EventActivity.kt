@@ -35,9 +35,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.ui.IconGenerator
 import com.personal.learn_android.adapter.EventPagerAdapter
+import com.personal.learn_android.databinding.ActivityEventBinding
 import com.personal.learn_android.model.Event
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_event.*
 import java.util.*
 
 /**
@@ -50,11 +50,15 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var eventFragment: EventFragment
     private lateinit var fm: FragmentManager
     private lateinit var realm: Realm
+    private lateinit var binding: ActivityEventBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_event)
-        setSupportActionBar(event_toolbar)
+        binding = ActivityEventBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        setSupportActionBar(binding.eventToolbar)
         val ourActionBar = supportActionBar
         ourActionBar?.setDisplayHomeAsUpEnabled(true)
         realm = Realm.getDefaultInstance()
@@ -62,8 +66,8 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupMapView() {
-        if (container.visibility != View.VISIBLE) {
-            container.visibility = View.VISIBLE
+        if (binding.container.visibility != View.VISIBLE) {
+            binding.container.visibility = View.VISIBLE
         }
         if (mapFragment.isHidden) {
             fm.beginTransaction().show(mapFragment).commit()
@@ -95,8 +99,8 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         val eventPagerAdapter = EventPagerAdapter(supportFragmentManager, listEvent)
-        container.adapter = eventPagerAdapter
-        container.addOnPageChangeListener(object : OnPageChangeListener {
+        binding.container.adapter = eventPagerAdapter
+        binding.container.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 val event = listEvent[position]
@@ -106,7 +110,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        container.visibility = View.GONE
+        binding.container.visibility = View.GONE
         mapFragment.getMapAsync(this)
     }
 
@@ -169,7 +173,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
             var i = 0
             for (event1 in listEvent) {
                 if (event1.eventName.equals(eventName, ignoreCase = true)) {
-                    container.currentItem = i
+                    binding.container.currentItem = i
                     break
                 } else {
                     i++

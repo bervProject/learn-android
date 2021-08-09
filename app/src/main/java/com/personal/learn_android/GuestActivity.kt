@@ -23,10 +23,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.personal.learn_android.adapter.GuestAdapter
+import com.personal.learn_android.databinding.ActivityGuestBinding
 import com.personal.learn_android.http.HttpService
 import com.personal.learn_android.model.Guest
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_guest.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,14 +37,18 @@ class GuestActivity : AppCompatActivity() {
     private lateinit var service: HttpService
     private lateinit var guestAdapter: GuestAdapter
     private lateinit var realm: Realm
+    private lateinit var binding: ActivityGuestBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_guest)
+        binding = ActivityGuestBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         val ourActionBar = supportActionBar
         ourActionBar?.setDisplayHomeAsUpEnabled(true)
         realm = Realm.getDefaultInstance()
-        swipe_refresh_guest.setOnRefreshListener { data }
-        gridview.setOnItemClickListener{ _,_,position,_ ->
+        binding.swipeRefreshGuest.setOnRefreshListener { data }
+        binding.gridview.setOnItemClickListener{ _,_,position,_ ->
             val guest = guestAdapter.getItem(position)
             val message = guest.name
             Toast.makeText(applicationContext, dateTest(guest.birthDate), Toast.LENGTH_SHORT).show()
@@ -103,9 +107,9 @@ class GuestActivity : AppCompatActivity() {
                         realm.copyToRealmOrUpdate(guestList)
                         realm.commitTransaction()
                         guestAdapter = GuestAdapter(guestList)
-                        gridview.adapter = guestAdapter
+                        binding.gridview.adapter = guestAdapter
                     }
-                    swipe_refresh_guest.isRefreshing = false
+                    binding.swipeRefreshGuest.isRefreshing = false
                 }
 
                 override fun onFailure(call: Call<List<Guest>>, t: Throwable) {
@@ -114,9 +118,9 @@ class GuestActivity : AppCompatActivity() {
                     val guestList: List<Guest> = realm.where(Guest::class.java).findAll()
                     if (guestList.isNotEmpty()) {
                         guestAdapter = GuestAdapter(guestList)
-                        gridview.adapter = guestAdapter
+                        binding.gridview.adapter = guestAdapter
                     }
-                    swipe_refresh_guest.isRefreshing = false
+                    binding.swipeRefreshGuest.isRefreshing = false
                 }
             })
         }

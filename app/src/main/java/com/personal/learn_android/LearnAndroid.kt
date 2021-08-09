@@ -15,7 +15,6 @@
  */
 package com.personal.learn_android
 
-import android.app.Application
 import androidx.multidex.MultiDexApplication
 import io.realm.Realm
 

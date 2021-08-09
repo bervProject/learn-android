@@ -19,22 +19,25 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_home.*
+import com.personal.learn_android.databinding.ActivityHomeBinding
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
     var name: String? = null
     private var guestText: String? = null
     private var eventText: String? = null
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        button_guest.setOnClickListener { _ ->
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        binding.buttonGuest.setOnClickListener { _ ->
             val intent = Intent(this, GuestActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_GUEST)
         }
-        button_event.setOnClickListener { _ ->
+        binding.buttonEvent.setOnClickListener { _ ->
             val intent = Intent(this, EventActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_EVENT)
         }
@@ -42,9 +45,9 @@ class HomeActivity : AppCompatActivity() {
         val message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE)
         if (message != null) {
             name = message
-            name_view.text = name
+            binding.nameView.text = name
             // Show Dialog isPalindrome
-            val dialog = AlertDialog.Builder(this).setTitle(getString(R.string.title_dialog_isPalindrom)).setMessage(isPalindrom(name!!)).create()
+            val dialog = AlertDialog.Builder(this).setTitle(getString(R.string.title_dialog_isPalindrom)).setMessage(isPalindrome(name!!)).create()
             dialog.show()
         }
     }
@@ -55,12 +58,12 @@ class HomeActivity : AppCompatActivity() {
                 val guestName = data!!.getStringExtra(GuestActivity.EXTRA_MESSAGE)
                 if (guestName != null) {
                     guestText = guestName
-                    button_guest.text = guestText
+                    binding.buttonGuest.text = guestText
                 } else {
                     if (guestText == null) {
-                        button_guest.text = getString(R.string.select_guest_button_text)
+                        binding.buttonGuest.text = getString(R.string.select_guest_button_text)
                     } else {
-                        button_guest.text = guestText
+                        binding.buttonGuest.text = guestText
                     }
                 }
             }
@@ -68,12 +71,12 @@ class HomeActivity : AppCompatActivity() {
                 val eventName = data!!.getStringExtra(EventActivity.EXTRA_MESSAGE)
                 if (eventName != null) {
                     eventText = eventName
-                    button_event.text = eventText
+                    binding.buttonEvent.text = eventText
                 } else {
                     if (eventText == null) {
-                        button_event.text = getString(R.string.select_event_button_text)
+                        binding.buttonEvent.text = getString(R.string.select_event_button_text)
                     } else {
-                        button_event.text = eventText
+                        binding.buttonEvent.text = eventText
                     }
                 }
             }
@@ -81,9 +84,9 @@ class HomeActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun isPalindrom(name: String): String {
+    private fun isPalindrome(name: String): String {
         var temp = name.replace("\\s+".toRegex(), "")
-        temp = temp.toLowerCase(Locale.ROOT)
+        temp = temp.lowercase(Locale.ROOT)
         val j = temp.length - 1
         var i = 0
         var palindrom = true

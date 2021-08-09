@@ -19,18 +19,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.personal.learn_android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        binding.button.setOnClickListener {
+            sendName()
+        }
     }
 
     fun sendName() {
         val intent = Intent(this, HomeActivity::class.java)
-        val message = editText.text.toString()
+        val message = binding.editText.text.toString()
         if (!message.equals("", ignoreCase = true)) {
             intent.putExtra(EXTRA_MESSAGE, message)
             startActivity(intent)

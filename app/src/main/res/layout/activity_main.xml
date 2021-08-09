@@ -58,7 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="sendName"
         android:textColor="@color/white"
         android:background="@drawable/button"
         android:text="@string/button_home" />

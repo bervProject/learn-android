@@ -19,9 +19,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.personal.learn_android.R
 import com.personal.learn_android.model.Event
-import kotlinx.android.synthetic.main.item_event.view.*
 
 class EventAdapter(private val events: List<Event>) : BaseAdapter() {
     override fun getCount(): Int {
@@ -40,9 +41,12 @@ class EventAdapter(private val events: List<Event>) : BaseAdapter() {
         if (convertView == null){
             val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_event, parent, false)
             val event = getItem(position)
-            view.imageEvent.setImageResource(event.image)
-            view.eventName.text = event.eventName
-            view.eventDate.text = event.tanggalEvent
+            val imageEvent = view.findViewById<ImageView>(R.id.imageEvent)
+            val eventName = view.findViewById<TextView>(R.id.eventName)
+            val eventDate = view.findViewById<TextView>(R.id.eventDate)
+            imageEvent.setImageResource(event.image)
+            eventName.text = event.eventName
+            eventDate.text = event.tanggalEvent
             return view
         }
         return convertView

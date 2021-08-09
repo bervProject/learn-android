@@ -20,22 +20,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.item_event_map.*
+import com.personal.learn_android.databinding.ItemEventMapBinding
 
 /**
  * Created by Bervianto Leo P on 03/06/2017.
  */
 class EventPagerFragment : Fragment() {
+    private var _binding: ItemEventMapBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val bundle = arguments
-        val rootView = inflater.inflate(R.layout.item_event_map, container, false)
+        _binding = ItemEventMapBinding.inflate(inflater, container, false)
         if (bundle != null) {
-            event_map_text.text = bundle.getString(ARG_SECTION_NAME)
-            event_map_image.setImageResource(bundle.getInt(ARG_SECTION_IMAGE))
+            binding.eventMapText.text = bundle.getString(ARG_SECTION_NAME)
+            binding.eventMapImage.setImageResource(bundle.getInt(ARG_SECTION_IMAGE))
         }
-        return rootView
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

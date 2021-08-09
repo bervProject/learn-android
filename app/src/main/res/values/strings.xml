@@ -22,4 +22,5 @@
     <string name="not_palindrome_message">not palindrome</string>
     <string name="action_search">Search</string>
     <string name="action_add_event">New Event</string>
+    <string name="event_map_image">Event Map Image</string>
 </resources>
