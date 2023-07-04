@@ -121,6 +121,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         val intent = Intent(this@EventActivity, HomeActivity::class.java)
         val message: String? = null
         intent.putExtra(EXTRA_MESSAGE, message)
