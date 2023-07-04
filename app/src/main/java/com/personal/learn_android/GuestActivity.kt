@@ -127,6 +127,7 @@ class GuestActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
+        super.onBackPressed()
         val intent = Intent(this@GuestActivity, HomeActivity::class.java)
         val message: String? = null
         intent.putExtra(EXTRA_MESSAGE, message)
