@@ -39,7 +39,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.core:core-ktx:1.15.0"
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
-    implementation 'com.google.android.material:material:1.13.0-alpha10'
+    implementation 'com.google.android.material:material:1.13.0-alpha11'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:19.0.0'
     implementation 'com.github.moondroid.coverflow:library:1.0'
