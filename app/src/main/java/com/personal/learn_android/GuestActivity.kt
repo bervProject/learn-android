@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.personal.learn_android.adapter.GuestAdapter
@@ -48,6 +49,13 @@ class GuestActivity : AppCompatActivity() {
         ourActionBar?.setDisplayHomeAsUpEnabled(true)
         realm = Realm.getDefaultInstance()
         binding.swipeRefreshGuest.setOnRefreshListener { data }
+        
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackPress()
+            }
+        })
+        
         binding.gridview.setOnItemClickListener{ _,_,position,_ ->
             val guest = guestAdapter.getItem(position)
             val message = guest.name
@@ -126,8 +134,7 @@ class GuestActivity : AppCompatActivity() {
         }
 
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    private fun handleBackPress() {
         val intent = Intent(this@GuestActivity, HomeActivity::class.java)
         val message: String? = null
         intent.putExtra(EXTRA_MESSAGE, message)

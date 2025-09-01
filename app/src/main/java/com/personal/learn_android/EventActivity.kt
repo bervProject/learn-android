@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -63,6 +64,12 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
         ourActionBar?.setDisplayHomeAsUpEnabled(true)
         realm = Realm.getDefaultInstance()
         initial()
+        
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackPress()
+            }
+        })
     }
 
     private fun setupMapView() {
@@ -120,8 +127,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
         return true
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    private fun handleBackPress() {
         val intent = Intent(this@EventActivity, HomeActivity::class.java)
         val message: String? = null
         intent.putExtra(EXTRA_MESSAGE, message)
